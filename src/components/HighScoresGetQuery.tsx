@@ -35,6 +35,7 @@ export default function HighScoresGetQuery() {
         dateOrder.current = "asc";
         queryClient.setQueryData(
           ["highScores"],
+            // @ts-ignore
           hs.toSorted((a, b) => {
             const aTimestamp = new Date(a.createdAt).getTime();
             const bTimestamp = new Date(b.createdAt).getTime();
@@ -45,6 +46,7 @@ export default function HighScoresGetQuery() {
       }
       case "asc": {
         dateOrder.current = "desc";
+        // @ts-ignore
         queryClient.setQueryData(["highScores"], hs.toReversed());
         break;
       }
@@ -53,6 +55,7 @@ export default function HighScoresGetQuery() {
         dateOrder.current = "-";
         queryClient.setQueryData(
           ["highScores"],
+            // @ts-ignore
           hs.toSorted((a, b) => {
             return a.timeToComplete - b.timeToComplete;
           })
@@ -91,6 +94,7 @@ export default function HighScoresGetQuery() {
   };
 
   const { isLoading, error, data, isFetching } = useQuery({
+    // @ts-ignore
     queryKey: ["highScores"],
     queryFn: () =>
       axios
@@ -108,10 +112,11 @@ export default function HighScoresGetQuery() {
 
   return (
     <div>
+      {/*@ts-ignore*/}
       <h2 style={{ textWrap: "balance" }}>Pathfinder Game Live High Scores</h2>
       <div className="progress-bar-group">
         <div>
-          <div
+          <div data-testid="progress-bar"
             className={classNames("progress-bar", {
               "progress-bar-full": !isFetching,
               "progress-bar-empty": isFetching,

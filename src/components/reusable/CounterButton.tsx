@@ -8,5 +8,6 @@ interface ButtonProps {
 export default function CounterButton({ onClick }: ButtonProps) {
   const count = useSelector(countSelect);
 
-  return <button onClick={onClick}>you clicked me {count} times</button>;
+  return <button data-testid="counter-button"
+    onClick={onClick}>you clicked me {count} times</button>;
 }

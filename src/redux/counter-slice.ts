@@ -16,11 +16,13 @@ const CounterSlice = createSlice({
     }
 });
 
+// @ts-ignore
 export const incrementAsync = (amount: number, waitTime: number) => async (dispatch) => {
     await delay(waitTime);
     dispatch(CounterSlice.actions.incrementByAmount(amount || 0));
 }
 
+// @ts-ignore
 export const countSelect = (state) => state.counter.value;
 
 export default CounterSlice.reducer;
