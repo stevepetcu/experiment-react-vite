@@ -1,0 +1,36 @@
+.loading {
+  font-size: 2rem;
+}
+
+.loading.is-loading {
+  color: red;
+}
+.loading.is-fetching {
+  color: orange;
+}
+.loading.is-done-loading {
+  color: green;
+}
+.progress-bar-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-bar-group div:first-of-type {
+  flex-grow: 1;
+}
+.progress-bar {
+  height: 0.65rem;
+  background: #646cffaa;
+  border-radius: 10px;
+}
+.progress-bar.progress-bar-full {
+  width: 100%;
+  transition: var(--refetch-interval, "0s") linear;
+  transition-property: width;
+}
+.progress-bar.progress-bar-empty {
+  width: 0%;
+  transition: 0s linear;
+  transition-property: width;
+}
