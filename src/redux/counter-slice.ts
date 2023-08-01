@@ -11,7 +11,7 @@ const CounterSlice = createSlice({
             state.value += action.payload;
         },
         decrementByAmount: (state, action) => {
-            state.value += action.payload;
+            state.value -= action.payload;
         }
     }
 });
