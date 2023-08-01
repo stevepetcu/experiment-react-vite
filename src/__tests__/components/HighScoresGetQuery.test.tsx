@@ -1,24 +1,46 @@
 import {render, screen, waitFor} from '@testing-library/react';
 import HighScoresGetQuery from '../../components/HighScoresGetQuery';
 import axios from 'axios';
+import {describe, expect, test} from '@jest/globals';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import '@testing-library/jest-dom'; // TODO: put in a testSetup file.
 
 jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
 describe('High Scores Get Query', () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        cacheTime: 0,
+        staleTime: 0,
+        retry: false, // Makes testing errors easier.
+      },
+    },
+  });
   describe('given no errors', () => {
     test('renders title and progress bar', () => {
-      expect.assertions(2);
-      (axios.get as jest.Mock).mockReturnValue({
+      // Given
+      mockedAxios.get.mockResolvedValue({
         data: []
       });
 
-      render(<HighScoresGetQuery/>);
+      // When
+      render(<QueryClientProvider client={queryClient}>
+        <HighScoresGetQuery refetchIntervalMs={250}/>
+      </QueryClientProvider>);
 
+      // Then
+      expect.hasAssertions();
       expect(screen.getByText(/Pathfinder Game Live High Scores/)).toBeInTheDocument();
       expect(screen.getByTestId('progress-bar')).toBeInTheDocument();
     });
 
     test('renders and refreshes the high scores table', async () => {
-      (axios.get as jest.Mock).mockReturnValueOnce({
+      // Given
+      mockedAxios.get.mockResolvedValue({
         data: [
           {
             publicId: 'foo-1',
@@ -42,7 +64,24 @@ describe('High Scores Get Query', () => {
             updatedAt: '2023-06-20T10:29:03.246Z'
           },
         ]
-      }).mockReturnValueOnce({
+      });
+
+      // When
+      render(<QueryClientProvider client={queryClient}>
+        <HighScoresGetQuery refetchIntervalMs={500}/>
+      </QueryClientProvider>);
+
+      // Then
+      expect.hasAssertions();
+
+      await waitFor(() => {
+        expect(screen.getByText(/Foo 1/)).toBeInTheDocument();
+        expect(screen.getByText(/Foo 2/)).toBeInTheDocument();
+        expect(screen.getByText(/Foo 3/)).toBeInTheDocument();
+      });
+
+      // Given (part 2) –– why can't I chain mockResolvedValueOnce above and have it behaved as expected? B/c… Jest?
+      mockedAxios.get.mockResolvedValue({
         data: [
           {
             publicId: 'bar-1',
@@ -68,34 +107,31 @@ describe('High Scores Get Query', () => {
         ]
       });
 
-      await waitFor(() => {
-        expect(screen.getByText(/Foo 1/)).toBeInTheDocument();
-        expect(screen.getByText(/Foo 2/)).toBeInTheDocument();
-        expect(screen.getByText(/Foo 3/)).toBeInTheDocument();
-      }, {
-        interval: 500,
-        timeout: 6000
-      });
-
+      // Then (part 2)
       await waitFor(() => {
         expect(screen.getByText(/Bar 1/)).toBeInTheDocument();
         expect(screen.getByText(/Bar 2/)).toBeInTheDocument();
         expect(screen.getByText(/Bar 3/)).toBeInTheDocument();
-      }, {
-        interval: 2000,
-        timeout: 6000
       });
     });
   });
 
   describe('given errors', () => {
     test('renders failure message instead of the component', async () => {
-      (axios.get as jest.Mock).mockReturnValue(new Error('Foo'));
+      // Given
+      mockedAxios.get.mockRejectedValue({data: new Error('Foo')});
 
+      // When
+      render(<QueryClientProvider client={queryClient}>
+        <HighScoresGetQuery refetchIntervalMs={15000}/>
+      </QueryClientProvider>);
+
+      // Then
+      expect.hasAssertions();
       await waitFor(() =>
         expect(screen.getByText(/You have failed to retrieve the High Scores!/)).toBeInTheDocument(), {
-        interval: 2000,
-        timeout: 6000,
+        interval: 100,
+        timeout: 1500,
       });
     });
   });

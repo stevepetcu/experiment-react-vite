@@ -11,7 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
+      refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       cacheTime: 5000,
       staleTime: 2500,
@@ -39,7 +39,7 @@ function App() {
           <CounterButton onClick={() => dispatch(incrementAsync(1, 500))} />
         </div>
         <div className="card">
-          <HighScoresGetQuery />
+          <HighScoresGetQuery refetchIntervalMs={5000} />
         </div>
         <p className="read-the-docs">
           Click on the Vite and React logos to learn more

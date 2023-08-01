@@ -1,8 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import React, { useEffect, useRef } from "react";
-import "./HighScores.css";
-import classNames from "classnames";
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import axios from 'axios';
+import React, {useEffect, useRef} from 'react';
+import './HighScores.css';
+import classNames from 'classnames';
 
 interface HighScore {
   publicId: string;
@@ -14,28 +14,31 @@ interface HighScore {
 
 function setRefetchIntervalForProgressBar(ms: number) {
   document.documentElement.style.setProperty(
-    "--refetch-interval",
+    '--refetch-interval',
     `${ms / 1000}s`
   );
 }
 
-export default function HighScoresGetQuery() {
-  const REFETCH_INTERVAL_MS = 5000;
+interface Props {
+  refetchIntervalMs: number,
+}
+
+export default function HighScoresGetQuery({refetchIntervalMs}: Props) {
   useEffect(() => {
-    setRefetchIntervalForProgressBar(REFETCH_INTERVAL_MS);
+    setRefetchIntervalForProgressBar(refetchIntervalMs);
   }, []);
 
-  const dateOrder = useRef<"-" | "asc" | "desc">("-");
+  const dateOrder = useRef<'-' | 'asc' | 'desc'>('-');
 
   const queryClient = useQueryClient();
 
   const orderHsOnClick = (hs: HighScore[]) => {
     switch (dateOrder.current) {
-      case "-": {
-        dateOrder.current = "asc";
+      case '-': {
+        dateOrder.current = 'asc';
         queryClient.setQueryData(
-          ["highScores"],
-            // @ts-ignore
+          ['highScores'],
+          // @ts-ignore
           hs.toSorted((a, b) => {
             const aTimestamp = new Date(a.createdAt).getTime();
             const bTimestamp = new Date(b.createdAt).getTime();
@@ -44,18 +47,18 @@ export default function HighScoresGetQuery() {
         );
         break;
       }
-      case "asc": {
-        dateOrder.current = "desc";
+      case 'asc': {
+        dateOrder.current = 'desc';
         // @ts-ignore
-        queryClient.setQueryData(["highScores"], hs.toReversed());
+        queryClient.setQueryData(['highScores'], hs.toReversed());
         break;
       }
       default: {
         // "desc", order by the score value
-        dateOrder.current = "-";
+        dateOrder.current = '-';
         queryClient.setQueryData(
-          ["highScores"],
-            // @ts-ignore
+          ['highScores'],
+          // @ts-ignore
           hs.toSorted((a, b) => {
             return a.timeToComplete - b.timeToComplete;
           })
@@ -66,7 +69,7 @@ export default function HighScoresGetQuery() {
 
   const orderHsOnRefetch = (hs: HighScore[]): HighScore[] => {
     switch (dateOrder.current) {
-      case "asc": {
+      case 'asc': {
         hs.sort((a, b) => {
           const aTimestamp = new Date(a.createdAt).getTime();
           const bTimestamp = new Date(b.createdAt).getTime();
@@ -74,7 +77,7 @@ export default function HighScoresGetQuery() {
         });
         break;
       }
-      case "desc": {
+      case 'desc': {
         hs.sort((a, b) => {
           const aTimestamp = new Date(a.createdAt).getTime();
           const bTimestamp = new Date(b.createdAt).getTime();
@@ -93,16 +96,16 @@ export default function HighScoresGetQuery() {
     return hs;
   };
 
-  const { isLoading, error, data, isFetching } = useQuery({
+  const {isLoading, error, data, isFetching} = useQuery({
     // @ts-ignore
-    queryKey: ["highScores"],
+    queryKey: ['highScores'],
     queryFn: () =>
       axios
         .get(
-          "https://experiment-pathfinder-edge-bff.vercel.app/api/highscores?limit=20&offset=15"
+          'https://experiment-pathfinder-edge-bff.vercel.app/api/highscores?limit=20&offset=15'
         )
         .then((res) => orderHsOnRefetch(res.data)),
-    refetchInterval: REFETCH_INTERVAL_MS,
+    refetchInterval: refetchIntervalMs,
     refetchIntervalInBackground: 30000,
   });
 
@@ -113,22 +116,22 @@ export default function HighScoresGetQuery() {
   return (
     <div>
       {/*@ts-ignore*/}
-      <h2 style={{ textWrap: "balance" }}>Pathfinder Game Live High Scores</h2>
+      <h2 style={{textWrap: 'balance'}}>Pathfinder Game Live High Scores</h2>
       <div className="progress-bar-group">
         <div>
           <div data-testid="progress-bar"
-            className={classNames("progress-bar", {
-              "progress-bar-full": !isFetching,
-              "progress-bar-empty": isFetching,
-            })}
+               className={classNames('progress-bar', {
+                 'progress-bar-full': !isFetching,
+                 'progress-bar-empty': isFetching,
+               })}
           />
         </div>
         <div>
           <span
-            className={classNames("loading", {
-              "is-loading": !data && (error || isLoading),
-              "is-fetching": !isLoading && isFetching,
-              "is-done-loading": !isLoading && !isFetching,
+            className={classNames('loading', {
+              'is-loading': !data && (error || isLoading),
+              'is-fetching': !isLoading && isFetching,
+              'is-done-loading': !isLoading && !isFetching,
             })}
           >
             •
@@ -137,7 +140,8 @@ export default function HighScoresGetQuery() {
       </div>
       {!isLoading && data && (
         <>
-          <table style={{ textAlign: "left", borderSpacing: "10px 5px" }}>
+          <table style={{textAlign: 'left', borderSpacing: '10px 5px'}}>
+            <thead>
             <tr>
               <th>Name</th>
               <th>Score</th>
@@ -148,6 +152,8 @@ export default function HighScoresGetQuery() {
                 </button>
               </th>
             </tr>
+            </thead>
+            <tbody>
             {data.map((hs: HighScore) => (
               <tr key={hs.publicId}>
                 <td>{hs.name}</td>
@@ -155,6 +161,7 @@ export default function HighScoresGetQuery() {
                 <td>{hs.createdAt}</td>
               </tr>
             ))}
+            </tbody>
           </table>
         </>
       )}
