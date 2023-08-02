@@ -7,6 +7,7 @@ import CounterButton from "./components/reusable/CounterButton";
 import HighScoresGetQuery from "./components/HighScoresGetQuery";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import DebouncedSearchForm from './components/DebouncedSearchForm';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +38,9 @@ function App() {
         <h2>On CodeSandbox!</h2>
         <div className="card">
           <CounterButton onClick={() => dispatch(incrementAsync(1, 500))} />
+        </div>
+        <div>
+          <DebouncedSearchForm debounceTimeMs={1000} />
         </div>
         <div className="card">
           <HighScoresGetQuery refetchIntervalMs={5000} />
