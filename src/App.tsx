@@ -1,13 +1,13 @@
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import reactLogo from './assets/react.svg';
+import './App.css';
 
-import { useDispatch } from "react-redux";
-import { incrementAsync } from "./redux";
-import CounterButton from "./components/reusable/CounterButton";
-import HighScoresGetQuery from "./components/HighScoresGetQuery";
+import {useDispatch} from 'react-redux';
+import {incrementAsync} from './redux';
+import CounterButton from './components/reusable/CounterButton';
+import HighScoresGetQuery from './components/HighScoresGetQuery';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import DebouncedSearchForm from './components/DebouncedSearchForm';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import SearchForm from './components/SearchForm';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,22 +28,22 @@ function App() {
       <div className="App">
         <div>
           <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-            <img src={reactLogo} className="logo react" alt="React logo" />
+            <img src={reactLogo} className="logo react" alt="React logo"/>
           </a>
           <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-            <img src="/vite.svg" className="logo" alt="Vite logo" />
+            <img src="/vite.svg" className="logo" alt="Vite logo"/>
           </a>
         </div>
         <h1>React + Vite</h1>
         <h2>On CodeSandbox!</h2>
         <div className="card">
-          <CounterButton onClick={() => dispatch(incrementAsync(1, 500))} />
+          <CounterButton onClick={() => dispatch(incrementAsync(1, 500))}/>
         </div>
         <div>
-          <DebouncedSearchForm debounceTimeMs={1000} />
+          <SearchForm debounceTimeMs={1500} throttleTimeMs={750}/>
         </div>
         <div className="card">
-          <HighScoresGetQuery refetchIntervalMs={5000} />
+          <HighScoresGetQuery refetchIntervalMs={5000}/>
         </div>
         <p className="read-the-docs">
           Click on the Vite and React logos to learn more

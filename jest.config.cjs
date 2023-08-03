@@ -1,4 +1,3 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   modulePaths: ['<rootDir>'],
   moduleFileExtensions: ['js', 'ts', 'tsx'],
