@@ -1,4 +1,4 @@
 import CounterStore from "./store";
-import { incrementAsync, countSelect } from "./counter-slice";
+import { incrementAsync, leftCountSelect, rightCountSelect } from "./counter-slice";
 
-export { CounterStore, incrementAsync, countSelect };
+export { CounterStore, incrementAsync, leftCountSelect, rightCountSelect };

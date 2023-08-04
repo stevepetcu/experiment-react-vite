@@ -4,7 +4,7 @@ export default function getTestStore(initialStateValue: number) {
   const TestCounterSlice = createSlice({
     name: "test-counter-slice", // Still don't know wtf this does.
     initialState: {
-      value: initialStateValue, // "value" can be anything, we use it in state.{foo}.{bar}, bar === value here.
+      leftValue: initialStateValue, // "value" can be anything, we use it in state.{foo}.{bar}, bar === value here.
     },
     reducers: {}
   });

@@ -1,13 +1,23 @@
-import { useSelector } from "react-redux";
-import { countSelect } from "../../redux";
+import {useSelector} from 'react-redux';
+import {leftCountSelect, rightCountSelect} from '../../redux';
+import React, {forwardRef} from 'react';
 
 interface ButtonProps {
   onClick: () => void;
+  side: 'left' | 'right';
 }
 
-export default function CounterButton({ onClick }: ButtonProps) {
-  const count = useSelector(countSelect);
+export default forwardRef(function CounterButton({
+                                                   onClick,
+                                                   side
+                                                 }: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) {
+  const count = side === 'left' ?
+    useSelector(leftCountSelect) :
+    useSelector(rightCountSelect);
+
+  const key = side === 'left' ? 'a' : 'd';
 
   return <button data-testid="counter-button"
-    onClick={onClick}>you clicked me {count} times</button>;
-}
+                 ref={ref}
+                 onClick={onClick}>&ldquo;{key}&rdquo; team score: {count}</button>;
+});

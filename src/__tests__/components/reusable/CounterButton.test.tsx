@@ -15,7 +15,8 @@ describe('Counter Button', () => {
     // When
     render(
       <Provider store={store}>
-        <CounterButton onClick={() => {
+        <CounterButton side='left'
+          onClick={() => {
           return;
         }}/>
       </Provider>
@@ -23,7 +24,7 @@ describe('Counter Button', () => {
 
     // Then
     expect.assertions(1);
-    expect(screen.getByText(/you clicked me 5 times/)).toBeInTheDocument();
+    expect(screen.getByText(/“a” team score: 5/)).toBeInTheDocument();
   });
 
   test('executes callback given is pressed', async () => {
@@ -35,7 +36,8 @@ describe('Counter Button', () => {
     // When
     render(
       <Provider store={store}>
-        <CounterButton onClick={fakeCallback}/>
+        <CounterButton side='left'
+          onClick={fakeCallback}/>
       </Provider>
     );
 
