@@ -1,4 +1,5 @@
-import {ChangeEvent, useRef, useState} from 'react';
+import {ChangeEvent, useContext, useEffect, useRef, useState} from 'react';
+import {LoadLogContext} from '../App';
 
 interface Props {
   debounceTimeMs: number,
@@ -13,6 +14,14 @@ export default function SearchForm({debounceTimeMs, throttleTimeMs}: Props) {
   const isThrottled = useRef<boolean>(false);
 
   const [searchString, setSearchString] = useState('');
+
+  // @ts-ignore
+  const {setLoadLog} = useContext(LoadLogContext);
+
+  useEffect(() => {
+    // @ts-ignore
+    setLoadLog((loadLog) => [...loadLog, 'SearchForm loaded!'])
+  }, [setLoadLog])
 
   function throttle(callback: () => void, ms: number) {
     if (isThrottled.current) {

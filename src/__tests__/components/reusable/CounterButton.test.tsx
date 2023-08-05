@@ -2,10 +2,10 @@ import {render, screen} from '@testing-library/react';
 import CounterButton from '../../../components/reusable/CounterButton';
 import getTestStore from '../../../__test-stubs__/redux/store';
 import {Provider} from 'react-redux';
-import React from 'react';
 import {describe, expect, test} from '@jest/globals';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import {LoadLogContext} from '../../../App';
 
 describe('Counter Button', () => {
   test('renders and displays the redux store value given initial store value', () => {
@@ -13,12 +13,14 @@ describe('Counter Button', () => {
     const {store} = getTestStore(5);
 
     // When
-    render(
-      <Provider store={store}>
-        <CounterButton side='left'
-          onClick={() => {
-          return;
-        }}/>
+    render(<Provider store={store}>
+        {/*@ts-ignore*/}
+        <LoadLogContext.Provider value={{setLoadLog: jest.fn()}}>
+          <CounterButton side="left"
+                         onClick={() => {
+                           return;
+                         }}/>
+        </LoadLogContext.Provider>
       </Provider>
     );
 
@@ -34,10 +36,14 @@ describe('Counter Button', () => {
     const user = userEvent.setup();
 
     // When
+    // @ts-ignore
     render(
       <Provider store={store}>
-        <CounterButton side='left'
-          onClick={fakeCallback}/>
+        {/*@ts-ignore*/}
+        <LoadLogContext.Provider value={{setLoadLog: jest.fn()}}>
+          <CounterButton side="left"
+                         onClick={fakeCallback}/>
+        </LoadLogContext.Provider>
       </Provider>
     );
 

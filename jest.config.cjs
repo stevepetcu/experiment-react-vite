@@ -9,6 +9,7 @@ module.exports = {
         // ts-jest configuration goes here
       },
     ],
+    "^.+\\.svg$": "<rootDir>/src/__test-stubs__/svgTransform.cjs"
   },
   moduleNameMapper: {
     '\\.(css)$': '<rootDir>/src/__test-stubs__/styleStub.cjs',

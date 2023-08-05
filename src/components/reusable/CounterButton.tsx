@@ -1,6 +1,7 @@
 import {useSelector} from 'react-redux';
 import {leftCountSelect, rightCountSelect} from '../../redux';
-import React, {forwardRef} from 'react';
+import React, {forwardRef, useContext, useEffect} from 'react';
+import {LoadLogContext} from '../../App';
 
 interface ButtonProps {
   onClick: () => void;
@@ -16,6 +17,14 @@ export default forwardRef(function CounterButton({
     useSelector(rightCountSelect);
 
   const key = side === 'left' ? 'a' : 'd';
+
+  // @ts-ignore
+  const {setLoadLog} = useContext(LoadLogContext);
+
+  useEffect(() => {
+    // @ts-ignore
+    setLoadLog((loadLog) => [...loadLog, `${side} CounterButton loaded!`]);
+  }, [setLoadLog])
 
   return <button data-testid="counter-button"
                  ref={ref}
