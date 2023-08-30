@@ -10,6 +10,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import SearchForm from './components/SearchForm';
 import {decrementAsync} from './redux/counter-slice';
 import React, {createContext, useEffect, useRef, useState} from 'react';
+import TicTacToe from './components/TicTacToe';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -101,6 +102,9 @@ function App() {
           </div>
           <div className="card">
             <HighScoresGetQuery refetchIntervalMs={5000}/>
+          </div>
+          <div className="card">
+            <TicTacToe />
           </div>
           <p className="read-the-docs">
             Click on the Vite and React logos to learn more

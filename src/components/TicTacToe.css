@@ -1,0 +1,79 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    place-items: center;
+    width: 342px;
+    min-height: 342px;
+    margin: 0 auto;
+    background-color: #1a1a1a;
+    border: 2px solid #121212;
+}
+
+.container .cell {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    place-items: center;
+    width: 100px;
+    height: 100px;
+    background-color: #242424;
+    line-height: 0;
+}
+
+.container .cell.active {
+    cursor: pointer;
+}
+
+.container .cell.active .opacity-parent-hover-15 {
+    transition: opacity 0.25s;
+    opacity: 0;
+}
+
+.container .cell.active:hover .opacity-parent-hover-15 {
+    opacity: 0.15;
+}
+
+.container .cell.active:hover {
+    filter: brightness(1.5);
+}
+
+.container .cell.active:active {
+    filter: brightness(1.25);
+    border: 1px solid #121212 !important;
+    width: 97px;
+    height: 97px;
+}
+
+.controls {
+    margin: 10px 0 20px 0;
+}
+
+.controls button:not(:last-of-type) {
+    margin-right: 10px;
+}
+
+.winning-line {
+    width: 5px;
+    height: 5px;
+    background-color: #fefefe;
+    border-radius: 9999px;
+    opacity: 0.5;
+    transition: top 0.05s,
+    left 0.05s,
+    opacity 0.05s,
+    transform 0.15s,
+    width 0.25s
+}
+
+.winning-line.active {
+    width: 375px;
+    height: 3px;
+    opacity: 0.65;
+}
+
+.position-relative {
+    position: relative;
+}
+
+.position-absolute {
+    position: absolute;
+}
