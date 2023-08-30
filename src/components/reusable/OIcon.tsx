@@ -2,8 +2,9 @@ import {IconProps} from './IconProps';
 import './IconStyles.css';
 import classNames from 'classnames';
 
-export default function OIcon({width, height, classes}: IconProps) {
-  return <div className={classNames('icon', classes)}>
+export default function OIcon({width, height, classes, testId}: IconProps) {
+  return <div data-testid={testId}
+              className={classNames('icon', classes)}>
     <svg fill="currentColor" strokeWidth="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
          width={`${width}px`} height={`${height}px`} style={{overflow: 'visible'}}>
       <path

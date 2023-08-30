@@ -1,8 +1,8 @@
 import {render, screen, waitFor} from '@testing-library/react';
 import SearchForm from '../../components/SearchForm';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-import {LoadLogContext} from '../../App'; // TODO: put in a testSetup file.
+import '@testing-library/jest-dom'; // TODO: put in a testSetup file.
+import {LoadLogContext} from '../../App';
 
 describe('Search Form', () => {
   test('updates the "live update" field synchronously given user types stuff', async () => {

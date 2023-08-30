@@ -235,20 +235,25 @@ export default function TicTacToe() {
     <>
       <h2>Tic Tac Toe – {state.gameState}</h2>
       <div className="controls">
-        <button disabled={state.gameState === GAME_STATE.NEW}
+        <button data-testid="tic-tac-toe-restart"
+                disabled={state.gameState === GAME_STATE.NEW}
                 onClick={() => dispatch({type: ActionType.RESTART})}>Restart
         </button>
-        <button disabled={state.undoStatesStack.length === 0}
+        <button data-testid="tic-tac-toe-undo"
+                disabled={state.undoStatesStack.length === 0}
                 onClick={() => dispatch({type: ActionType.UNDO})}>Undo
         </button>
-        <button disabled={state.redoStatesStack.length === 0}
+        <button data-testid="tic-tac-toe-redo"
+                disabled={state.redoStatesStack.length === 0}
                 onClick={() => dispatch({type: ActionType.REDO})}>Redo
         </button>
       </div>
-      <div className="container position-relative">
-        <div className={classNames('winning-line position-absolute', {
-          'active': [GAME_STATE.X_WON, GAME_STATE.O_WON].includes(state.gameState)
-        })}
+      <div data-testid="tic-tac-toe-board"
+           className="container position-relative">
+        <div data-testid="tic-tac-toe-winning-line"
+             className={classNames('winning-line position-absolute', {
+               'active': [GAME_STATE.X_WON, GAME_STATE.O_WON].includes(state.gameState)
+             })}
              style={{
                'top': state.winningLineDetails?.direction === 'H' ?
                  `${(state.winningLineDetails.start + 1) * 55 + state.winningLineDetails.start * 59}px` :
@@ -271,19 +276,22 @@ export default function TicTacToe() {
         {
           state.cells.flat().map((cell) => {
             return (
-              <div onClick={() => dispatch({type: ActionType.PLACE_LETTER, cell})}
-                   key={'' + cell.col + cell.row}
+              <div data-testid={`tic-tac-toe-cell-${'' + cell.row + cell.col}`}
+                   onClick={() => dispatch({type: ActionType.PLACE_LETTER, cell})}
+                   key={'' + cell.row + cell.col}
                    className={classNames('cell', {
                      'active': cell.value === CellValue.EMPTY &&
                        [GAME_STATE.NEW, GAME_STATE.STARTED].includes(state.gameState)
                    })}>
-                <XIcon width={50} height={50} classes={classNames('display-none', {
+                <XIcon testId={`tic-tac-toe-x-mark-${'' + cell.row + cell.col}`}
+                       width={50} height={50} classes={classNames('display-none', {
                   'display-block': cell.value === CellValue.X ||
                     ([GAME_STATE.NEW, GAME_STATE.STARTED].includes(state.gameState) &&
                       state.turn === TURN.X_TURN && cell.value === CellValue.EMPTY),
                   'opacity-parent-hover-15': state.turn === TURN.X_TURN && cell.value === CellValue.EMPTY
                 })}/>
-                <OIcon width={40} height={40} classes={classNames('display-none', {
+                <OIcon testId={`tic-tac-toe-o-mark-${'' + cell.row + cell.col}`}
+                       width={40} height={40} classes={classNames('display-none', {
                   'display-block': cell.value === CellValue.O ||
                     ([GAME_STATE.NEW, GAME_STATE.STARTED].includes(state.gameState) &&
                       state.turn === TURN.O_TURN && cell.value === CellValue.EMPTY),
