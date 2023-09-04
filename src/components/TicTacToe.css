@@ -19,24 +19,24 @@
     line-height: 0;
 }
 
-.container .cell.active {
+.container .cell.empty {
     cursor: pointer;
 }
 
-.container .cell.active .opacity-parent-hover-15 {
+.container .cell.empty .opacity-parent-hover-15 {
     transition: opacity 0.25s;
     opacity: 0;
 }
 
-.container .cell.active:hover .opacity-parent-hover-15 {
+.container .cell.empty:hover .opacity-parent-hover-15 {
     opacity: 0.15;
 }
 
-.container .cell.active:hover {
+.container .cell.empty:hover {
     filter: brightness(1.5);
 }
 
-.container .cell.active:active {
+.container .cell.empty:active {
     filter: brightness(1.25);
     border: 1px solid #121212 !important;
     width: 97px;

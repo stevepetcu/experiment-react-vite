@@ -280,7 +280,7 @@ export default function TicTacToe() {
                    onClick={() => dispatch({type: ActionType.PLACE_LETTER, cell})}
                    key={'' + cell.row + cell.col}
                    className={classNames('cell', {
-                     'active': cell.value === CellValue.EMPTY &&
+                     'empty': cell.value === CellValue.EMPTY &&
                        [GAME_STATE.NEW, GAME_STATE.STARTED].includes(state.gameState)
                    })}>
                 <XIcon testId={`tic-tac-toe-x-mark-${'' + cell.row + cell.col}`}
